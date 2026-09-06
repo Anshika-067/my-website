@@ -6,5 +6,147 @@
 }
 
 body{
-   background-color: rgba(98, 138, 177, 0.52)
+   background-color: rgba(98, 138, 177, 0.52);
+}
+.main-content{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    width: 100%;
+    background:white;
+
+}
+.learning-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 0 10px;
+    margin-top: 24px;
+}
+
+.cards {
+    background: #edf4fa;
+    border-radius: 18px;
+    padding: 22px;
+    min-height: 280px;
+    width: 50%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.cards-content {
+    display: block;
+    margin-top: 8px;
+    background: rgba(98, 138, 177, 0.52);
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.card1 {
+    display: block;
+    padding: 24px;
+    min-height: 180px;
+    color: inherit;
+    text-decoration: none;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.resource-content {
+    background: rgba(98, 138, 177, 0.52);
+    border-radius: 18px;
+    padding: 22px;
+    min-height: 280px;
+    width: 50%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 1005px;
+    overflow: hidden;
+}
+
+.resources-header {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.resources-header h1 {
+    color: #1b2a41;
+    margin: 0;
+}
+
+.resources {
+    display: flex;
+    flex-direction: column;
+    background: rgba(98, 138, 177, 0.52);
+    border-radius: 16px;
+    padding: 15px;
+    min-height: 280px;
+    height: 100%;
+    flex: 1;
+    overflow: auto;
+}
+
+.resource-list {
+    display: grid;
+    gap: 16px;
+}
+
+.skill-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.skill-box h2 {
+    margin-bottom: 12px;
+    color: #1b2a41;
+}
+
+.difficulty-box {
+    background: #edf4fa;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+
+.difficulty-box:last-child {
+    margin-bottom: 0;
+}
+
+.difficulty-box h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #234a74;
+}
+
+.difficulty-box ul {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    gap: 6px;
+}
+
+.difficulty-box li a {
+    color: #164a8c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.difficulty-box li a:hover {
+    text-decoration: underline;
+}
+
+.cards h1,
+.resource-content h1 {
+    margin-bottom: 8px;
 }
