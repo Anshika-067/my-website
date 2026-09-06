@@ -7,6 +7,124 @@
     <link rel="stylesheet" href="style2.css">
 </head>
 <body>
-    
+    <main class="main-content">
+        <h1>Internship Discovery</h1>
+    </main>
+
+    <section class="learning-layout">
+        <div class="cards">
+            <div class="cards-content">
+                <div class="card1">
+                    <h1>Internship Search</h1>
+                    <p><strong>Find opportunities that fit your goals:</strong> Search by role, company, skill, location, industry, stipend, duration, and other details.</p>
+                    <p><strong>Choose your work setup:</strong> Filter internships by remote, hybrid, or on-site opportunities.</p>
+                    <p><strong>Match the opportunity to your needs:</strong> Select paid or unpaid roles, part-time or full-time schedules, and beginner-friendly or experienced positions.</p>
+                </div>
+
+                <div class="skill-box available-internships">
+                    <h2>Available Internships</h2>
+                    <div class="internship-list">
+                        <article class="internship-item">
+                            <h3>Frontend Developer Intern</h3>
+                            <p>TechNova &middot; Remote &middot; Paid</p>
+                            <span>3 months &middot; Beginner-friendly</span>
+                        </article>
+                        <article class="internship-item">
+                            <h3>Data Analyst Intern</h3>
+                            <p>Insight Labs &middot; Hybrid &middot; Paid</p>
+                            <span>6 months &middot; Part-time</span>
+                        </article>
+                        <article class="internship-item">
+                            <h3>Cybersecurity Intern</h3>
+                            <p>SecureNet &middot; On-site &middot; Paid</p>
+                            <span>4 months &middot; Beginner-friendly</span>
+                        </article>
+                        <article class="internship-item">
+                            <h3>UI/UX Design Intern</h3>
+                            <p>PixelWorks &middot; Remote &middot; Unpaid</p>
+                            <span>3 months &middot; Part-time</span>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="resource-content">
+            <div class="resources-header">
+                <h1>Search Filters</h1>
+            </div>
+
+            <div class="resources">
+                <div class="resource-list">
+                    <form class="search-form" action="#" method="get">
+                        <div class="search-field search-keyword">
+                            <label for="internship-search">Search internships</label>
+                            <input id="internship-search" name="search" type="search" placeholder="Role, company, skill, or keyword">
+                        </div>
+
+                        <div class="search-grid">
+                            <div class="search-field">
+                                <label for="location">Location</label>
+                                <input id="location" name="location" type="text" placeholder="City or country">
+                            </div>
+                            <div class="search-field">
+                                <label for="industry">Industry</label>
+                                <select id="industry" name="industry">
+                                    <option value="">All industries</option>
+                                    <option>Technology</option>
+                                    <option>Finance</option>
+                                    <option>Healthcare</option>
+                                    <option>Marketing</option>
+                                    <option>Design</option>
+                                </select>
+                            </div>
+                            <div class="search-field">
+                                <label for="duration">Duration</label>
+                                <select id="duration" name="duration">
+                                    <option value="">Any duration</option>
+                                    <option>1-3 months</option>
+                                    <option>4-6 months</option>
+                                    <option>6+ months</option>
+                                </select>
+                            </div>
+                            <div class="search-field">
+                                <label for="stipend">Stipend</label>
+                                <select id="stipend" name="stipend">
+                                    <option value="">Any stipend</option>
+                                    <option>Paid</option>
+                                    <option>Unpaid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <fieldset class="search-options">
+                            <legend>Work setup</legend>
+                            <label><input type="checkbox" name="work_setup" value="remote"> Remote</label>
+                            <label><input type="checkbox" name="work_setup" value="hybrid"> Hybrid</label>
+                            <label><input type="checkbox" name="work_setup" value="onsite"> On-site</label>
+                        </fieldset>
+
+                        <fieldset class="search-options">
+                            <legend>Schedule</legend>
+                            <label><input type="radio" name="schedule" value="part-time"> Part-time</label>
+                            <label><input type="radio" name="schedule" value="full-time"> Full-time</label>
+                        </fieldset>
+
+                        <fieldset class="search-options">
+                            <legend>Experience level</legend>
+                            <label><input type="checkbox" name="experience" value="beginner"> Beginner-friendly</label>
+                            <label><input type="checkbox" name="experience" value="experienced"> Experienced</label>
+                        </fieldset>
+
+                        <div class="search-actions">
+                            <button type="submit">Search Internships</button>
+                            <button type="reset" class="clear-button">Clear</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </aside>
+    </section>
 </body>
 </html>

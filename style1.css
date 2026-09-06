@@ -5,27 +5,50 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body{
-   background-color: rgba(98, 138, 177, 0.52);
+html {
+   scrollbar-width: none;
+   -ms-overflow-style: none;
 }
-.main-content{
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-    width: 100%;
-    background:white;
+
+html::-webkit-scrollbar {
+   display: none;
+}
+
+body {
+   background-color: rgba(98, 138, 177, 0.52);
+   min-height: 100vh;
+}
+
+.main-content {
+   position: sticky;
+   top: 0;
+   z-index: 10;
+   display: flex;
+   flex-direction: column;
+   padding: 20px;
+   gap: 12px;
+   width: 100%;
+   background: white;
+}
+
+.main-content h1 {
+   font-size: clamp(2rem, 3vw, 2.8rem);
+   color: #1b2a41;
+}
+
+.page-intro {
+   max-width: 820px;
+   font-size: 1.05rem;
+   line-height: 1.6;
+   color: #34506e;
 }
 
 .learning-layout {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    padding: 0 10px;
-    margin-top: 24px;
+   display: flex;
+   gap: 24px;
+   align-items: flex-start;
+   padding: 0 10px;
+   margin-top: 24px;
 }
 
 .cards {
@@ -60,6 +83,20 @@ body{
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s, box-shadow 0.2s;
     width: 100%;
+}
+
+.card1 h1 {
+    margin-bottom: 18px;
+}
+
+.card1 p {
+    margin-bottom: 18px;
+    line-height: 1.6;
+    color: #22486f;
+}
+
+.card1 p:last-child {
+    margin-bottom: 0;
 }
 
 .importance-image {
@@ -168,4 +205,29 @@ body{
 .cards h1,
 .resource-content h1 {
     margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+    .learning-layout {
+        flex-direction: column;
+    }
+
+    .cards,
+    .resource-content {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .main-content,
+    .cards,
+    .resource-content {
+        padding: 16px;
+    }
+
+    .card1,
+    .resources-header,
+    .skill-box {
+        padding: 14px;
+    }
 }
