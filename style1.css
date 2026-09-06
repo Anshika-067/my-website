@@ -9,14 +9,17 @@ body{
    background-color: rgba(98, 138, 177, 0.52);
 }
 .main-content{
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     padding: 20px;
     gap: 20px;
     width: 100%;
     background:white;
-
 }
+
 .learning-layout {
     display: flex;
     gap: 24px;
@@ -37,7 +40,9 @@ body{
 }
 
 .cards-content {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
     margin-top: 8px;
     background: rgba(98, 138, 177, 0.52);
     border-radius: 16px;
@@ -55,6 +60,20 @@ body{
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s, box-shadow 0.2s;
     width: 100%;
+}
+
+.importance-image {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.importance-image img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
 }
 
 .resource-content {
