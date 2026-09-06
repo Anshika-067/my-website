@@ -299,6 +299,15 @@ body {
    margin-top: 3px;
 }
 
+.matched-internships {
+   margin-top: 16px;
+}
+
+.results-summary {
+   color: #164a8c;
+   margin-bottom: 12px;
+}
+
 @media (max-width: 800px) {
    .learning-layout {
       flex-direction: column;

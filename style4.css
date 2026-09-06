@@ -1,3 +1,114 @@
-body{
-   background-color: rgba(98, 138, 177, 0.52)
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    min-height: 100vh;
+    color: #1b2a41;
+    background-color: rgba(98, 138, 177, 0.52);
+}
+
+.main-content {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.main-content h1 {
+    margin-bottom: 8px;
+    color: #1b2a41;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+}
+
+.main-content p,
+.resource-intro p {
+    color: #34506e;
+    line-height: 1.6;
+}
+
+.resource-layout {
+    display: grid;
+    gap: 24px;
+    padding: 24px;
+}
+
+.resource-intro {
+    padding: 22px;
+    border-radius: 18px;
+    background: #edf4fa;
+}
+
+.resource-intro h2 {
+    margin-bottom: 8px;
+    color: #1b2a41;
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.skill-resource {
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.skill-resource h2 {
+    margin-bottom: 14px;
+    color: #234a74;
+}
+
+.skill-resource ul {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+}
+
+.skill-resource li {
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #34506e;
+    background: #edf4fa;
+    line-height: 1.45;
+}
+
+.skill-resource strong {
+    color: #1b2a41;
+}
+
+.skill-resource a {
+    color: #527cb0;
+    font-weight: 600;
+}
+
+.skill-resource a:hover,
+.skill-resource a:focus {
+    color: #234a74;
+}
+
+@media (max-width: 800px) {
+    .resource-layout {
+        padding: 12px;
+    }
+
+    .resource-grid {
+        grid-template-columns: 1fr;
+    }
 }

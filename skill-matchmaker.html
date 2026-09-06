@@ -7,6 +7,47 @@
     <link rel="stylesheet" href="style3.css">
 </head>
 <body>
-    
+    <div class="app-shell">
+        <aside class="match-sidebar">
+            <section class="analysis-card">
+                <div class="progress-section">
+                    <div class="progress-heading">
+                        <span>Skill Match Score</span>
+                        <strong>78%</strong>
+                    </div>
+                    <progress value="78" max="100">78%</progress>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-heading">
+                        <span>Skill Gap Analysis</span>
+                        <strong>62%</strong>
+                    </div>
+                    <progress value="62" max="100">62%</progress>
+                </div>
+            </section>
+        </aside>
+
+        <main class="chat-window">
+            <header class="chat-header">
+                <div class="assistant-avatar"></div>
+                <h1>Skilltor Assistant</h1>
+            </header>
+
+            <section class="conversation" aria-label="Conversation">
+                <article class="message user-message">
+                    <p>Which skill should I improve first?</p>
+                </article>
+                <article class="message assistant-message">
+                    <p>Improve AWS first. It is currently your biggest skill gap and will increase your match score for cloud and backend internships.</p>
+                </article>
+            </section>
+
+            <form class="chat-composer">
+                <input type="text" name="question" placeholder="Ask a question..." >
+                <button type="submit">Send</button>
+            </form>
+        </main>
+    </div>
 </body>
 </html>
