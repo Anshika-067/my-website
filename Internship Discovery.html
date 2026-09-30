@@ -5,77 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Internship Discovery</title>
     <link rel="stylesheet" href="style2.css">
+    <script src="internship-discovery.js" defer></script>
 </head>
 <body>
-    <main class="main-content">
-        <h1>Internship Discovery</h1>
+    <main class="main-content internship-header">
+        <a class="internship-back" href="index.html">&larr; Dashboard</a>
+        <div>
+            <p class="internship-eyebrow">SKILLTOR CAREER MATCH</p>
+            <h1>Internship Discovery</h1>
+            <p>Browse internship listings across roles, industries, and locations.</p>
+        </div>
     </main>
 
     <section class="learning-layout">
-        <div class="cards">
-            <div class="cards-content">
-                <div class="card1">
-                    <h1>Internship Search</h1>
-                    <p><strong>Find opportunities that fit your goals:</strong> Search by role, company, skill, location, industry, stipend, duration, and other details.</p>
-                    <p><strong>Choose your work setup:</strong> Filter internships by remote, hybrid, or on-site opportunities.</p>
-                    <p><strong>Match the opportunity to your needs:</strong> Select paid or unpaid roles, part-time or full-time schedules, and beginner-friendly or experienced positions.</p>
+        <div class="discovery-main">
+            <section class="personalization-strip" aria-labelledby="recommendation-context-title">
+                <div>
+                    <p class="internship-eyebrow">INTERNSHIP LISTINGS</p>
+                    <h2 id="recommendation-context-title">All available opportunities</h2>
+                    <p id="profile-summary">Showing all current sample listings across roles and locations.</p>
                 </div>
+                <span id="results-count" class="results-count"></span>
+            </section>
 
-                <div class="skill-box available-internships">
-                    <h2>Available Internships</h2>
-                    <div class="internship-list">
-                        <article class="internship-item">
-                            <h3>Frontend Developer Intern</h3>
-                            <p>TechNova &middot; Remote &middot; Paid</p>
-                            <span>3 months &middot; Beginner-friendly</span>
-                        </article>
-                        <article class="internship-item">
-                            <h3>Data Analyst Intern</h3>
-                            <p>Insight Labs &middot; Hybrid &middot; Paid</p>
-                            <span>6 months &middot; Part-time</span>
-                        </article>
-                        <article class="internship-item">
-                            <h3>Cybersecurity Intern</h3>
-                            <p>SecureNet &middot; On-site &middot; Paid</p>
-                            <span>4 months &middot; Beginner-friendly</span>
-                        </article>
-                        <article class="internship-item">
-                            <h3>UI/UX Design Intern</h3>
-                            <p>PixelWorks &middot; Remote &middot; Unpaid</p>
-                            <span>3 months &middot; Part-time</span>
-                        </article>
+            <section class="results-panel internship-results" aria-live="polite" aria-labelledby="recommendations-heading">
+                <div class="internship-results-heading">
+                    <div>
+                        <p class="internship-eyebrow">AVAILABLE LISTINGS</p>
+                        <h2 id="recommendations-heading">Internships</h2>
                     </div>
                 </div>
-            </div>
+                <p class="results-summary" id="results-summary">Showing every sample listing. Choose filters and press Search Internships to narrow the list.</p>
+                <div class="internship-list" id="internship-results"></div>
+                <p class="no-results" id="no-results" hidden>No internships match those filters. Try widening your search.</p>
+            </section>
         </div>
 
         <aside class="resource-content">
             <div class="resources-header">
-                <h1>Search Filters</h1>
+                <h2>Refine matches</h2>
             </div>
 
             <div class="resources">
                 <div class="resource-list">
-                    <form class="search-form" action="#" method="get">
+                    <form class="search-form" id="internship-filters">
                         <div class="search-field search-keyword">
                             <label for="internship-search">Search internships</label>
-                            <input id="internship-search" name="search" type="search" placeholder="Role, company, skill, or keyword">
+                            <input id="internship-search" name="search" type="search" placeholder="Role, company, industry, or keyword">
                         </div>
 
                         <div class="search-grid">
                             <div class="search-field">
                                 <label for="location">Location</label>
-                                <input id="location" name="location" type="text" placeholder="City or country">
+                                <input id="location" name="location" type="text" placeholder="City">
                             </div>
                             <div class="search-field">
                                 <label for="industry">Industry</label>
                                 <select id="industry" name="industry">
                                     <option value="">All industries</option>
                                     <option>Technology</option>
-                                    <option>Finance</option>
-                                    <option>Healthcare</option>
-                                    <option>Marketing</option>
+                                    <option>Data &amp; Analytics</option>
+                                    <option>Cybersecurity</option>
                                     <option>Design</option>
+                                    <option>Cloud &amp; Infrastructure</option>
                                 </select>
                             </div>
                             <div class="search-field">
@@ -122,32 +114,6 @@
                         </div>
                     </form>
 
-                    <section class="skill-box matched-internships" aria-live="polite">
-                        <h2>Matched Internships</h2>
-                        <p class="results-summary">Available internships matching the selected search criteria:</p>
-                        <div class="internship-list">
-                            <article class="internship-item">
-                                <h3>Frontend Developer Intern</h3>
-                                <p>TechNova</p>
-                                <span>Remote · Paid · 3 months · Beginner-friendly</span>
-                            </article>
-                            <article class="internship-item">
-                                <h3>Data Analyst Intern</h3>
-                                <p>Insight Labs</p>
-                                <span>Hybrid · Paid · 6 months · Part-time</span>
-                            </article>
-                            <article class="internship-item">
-                                <h3>Cybersecurity Intern</h3>
-                                <p>SecureNet</p>
-                                <span>On-site · Paid · 4 months · Beginner-friendly</span>
-                            </article>
-                            <article class="internship-item">
-                                <h3>UI/UX Design Intern</h3>
-                                <p>PixelWorks</p>
-                                <span>Remote · Unpaid · 3 months · Part-time</span>
-                            </article>
-                        </div>
-                    </section>
                 </div>
             </div>
         </aside>

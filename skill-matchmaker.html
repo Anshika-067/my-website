@@ -1,53 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skill Matchmaker</title>
+    <title>Career Readiness | SkillTor</title>
     <link rel="stylesheet" href="style3.css">
+    <script src="skill-matchmaker.js" defer></script>
 </head>
+
 <body>
-    <div class="app-shell">
-        <aside class="match-sidebar">
-            <section class="analysis-card">
-                <div class="progress-section">
-                    <div class="progress-heading">
-                        <span>Skill Match Score</span>
-                        <strong>78%</strong>
+    <header class="workflow-header">
+        <a class="brand" href="index.html">SkillTor</a>
+        <a class="dashboard-link" href="index.html"><span aria-hidden="true">&larr;</span> Dashboard</a>
+    </header>
+
+    <main class="workflow-shell">
+        <section class="page-heading" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">SKILL PASSPORT</p>
+                <h1 id="page-title">Career readiness</h1>
+                <p>Choose a target role, assess your current skills, and turn the gaps into a learning plan.</p>
+            </div>
+            <span class="save-status" id="save-status" role="status">Progress saves on this device</span>
+        </section>
+
+        <section class="flow-panel" aria-labelledby="workflow-title">
+            <h2 id="workflow-title">Assessment workflow</h2>
+            <ol class="workflow-stages">
+                <li><span>01</span>Student profile</li>
+                <li><span>02</span>Skill assessment</li>
+                <li><span>03</span>Skill analysis</li>
+                <li><span>04</span>Competency map</li>
+                <li><span>05</span>Gap analysis</li>
+                <li><span>06</span>Recommendations</li>
+                <li><span>07</span>Learning path</li>
+                <li><span>08</span>Readiness score</li>
+            </ol>
+        </section>
+
+        <section class="metrics-grid" aria-label="Readiness dashboard" aria-live="polite">
+            <article class="metric-card metric-match">
+                <span>Skill Match Score</span>
+                <strong id="match-score">0%</strong>
+                <small>Weighted role competency match</small>
+            </article>
+            <article class="metric-card">
+                <span>Skill Gap Index</span>
+                <strong id="gap-index">100%</strong>
+                <small>Required competency points missing</small>
+            </article>
+            <article class="metric-card metric-readiness">
+                <span>Readiness Score</span>
+                <strong id="readiness-title">0%</strong>
+                <small id="readiness-level">Baseline needed</small>
+            </article>
+            <article class="metric-card metric-critical">
+                <span>Critical Skill</span>
+                <strong id="critical-skill">None</strong>
+                <small id="critical-skill-gap">No critical gaps</small>
+            </article>
+            <article class="metric-card metric-role">
+                <span>Target Role</span>
+                <strong id="target-role-summary">Software Developer</strong>
+                <small id="profile-completeness">Profile completeness: 0%</small>
+            </article>
+        </section>
+
+        <section class="priority-preview" aria-labelledby="priority-preview-title">
+            <div class="priority-preview-heading">
+                <p class="eyebrow">FAST-TRACK REMEDIATION</p>
+                <h2 id="priority-preview-title">Recommended upskilling pathway</h2>
+            </div>
+            <ol id="priority-preview" aria-live="polite"></ol>
+        </section>
+
+        <details class="formula-panel">
+            <summary>How these scores are calculated</summary>
+            <p><strong>Match:</strong> 100 × Σ(min(current, required) × weight) ÷ Σ(required × weight).</p>
+            <p><strong>Gap index:</strong> 100 × Σ(max(required − current, 0) × weight) ÷ Σ(required × weight).</p>
+            <p><strong>Readiness:</strong> 0.8 × skill match + 0.2 × profile completeness (<span id="formula-readiness-value">0% skill match + 0% profile completion</span>). Scores are prototype indicators, not a hiring guarantee.</p>
+                    <p><strong>Gap labels:</strong> Strong meets the requirement; Moderate is at least halfway there; Missing / Critical is below half. Critical gaps are prioritized before other gaps.</p>
+        </details>
+
+        <div class="readiness-layout">
+            <form class="assessment-panel" id="profile-form">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">YOUR INPUTS</p>
+                        <h2>Profile &amp; assessment</h2>
                     </div>
-                    <progress value="78" max="100">78%</progress>
                 </div>
 
-                <div class="progress-section">
-                    <div class="progress-heading">
-                        <span>Skill Gap Analysis</span>
-                        <strong>62%</strong>
-                    </div>
-                    <progress value="62" max="100">62%</progress>
+                <div class="profile-fields">
+                    <label class="field" for="student-name">
+                        <span>Student name</span>
+                        <input id="student-name" name="name" type="text" autocomplete="name" value="Sweezy" maxlength="60">
+                    </label>
+                    <label class="field" for="college">
+                        <span>College</span>
+                        <input id="college" name="college" type="text" autocomplete="organization" placeholder="College or university" maxlength="100">
+                    </label>
+                    <label class="field" for="degree">
+                        <span>Degree / branch</span>
+                        <input id="degree" name="degree" type="text" placeholder="For example: B.Tech, Computer Science" maxlength="100">
+                    </label>
+                    <label class="field" for="year">
+                        <span>Year of study</span>
+                        <select id="year" name="year">
+                            <option value="">Select year</option>
+                            <option value="1">1st year</option>
+                            <option value="2">2nd year</option>
+                            <option value="3">3rd year</option>
+                            <option value="4">4th year</option>
+                            <option value="5">5th year or above</option>
+                            <option value="graduate">Graduate</option>
+                        </select>
+                    </label>
+                    <label class="field" for="cgpa">
+                        <span>CGPA (out of 10)</span>
+                        <input id="cgpa" name="cgpa" type="number" min="0" max="10" step="0.01" placeholder="e.g. 8.2" inputmode="decimal">
+                    </label>
+                    <label class="field" for="target-role">
+                        <span>Career goal / target role</span>
+                        <select id="target-role" name="targetRole">
+                            <option value="software">Software Developer</option>
+                            <option value="data">Data Analyst</option>
+                            <option value="aiml">AI/ML Engineer</option>
+                            <option value="web">Web Developer</option>
+                            <option value="cloud">Cloud Engineer</option>
+                            <option value="frontend">Frontend developer</option>
+                            <option value="cybersecurity">Cybersecurity analyst</option>
+                            <option value="ux">UX/UI designer</option>
+                        </select>
+                    </label>
+                    <label class="field field-wide" for="interests">
+                        <span>Career interests</span>
+                        <input id="interests" name="interests" type="text" placeholder="For example: accessible design, data, web apps" maxlength="180">
+                    </label>
+                    <label class="field field-wide" for="learning-mode">
+                        <span>Preferred learning mode</span>
+                        <select id="learning-mode" name="learningMode">
+                            <option value="">Select preferred mode</option>
+                            <option value="hands-on">Hands-on projects</option>
+                            <option value="video">Video lessons</option>
+                            <option value="reading">Reading and documentation</option>
+                            <option value="instructor">Instructor-led learning</option>
+                            <option value="mixed">A mix of learning formats</option>
+                        </select>
+                    </label>
                 </div>
-            </section>
-        </aside>
 
-        <main class="chat-window">
-            <header class="chat-header">
-                <div class="assistant-avatar"></div>
-                <h1>Skilltor Assistant</h1>
-            </header>
+                <div class="assessment-heading">
+                    <div>
+                        <h3>Current skills</h3>
+                        <p>Add skills you already have and choose your current proficiency.</p>
+                    </div>
+                </div>
+                <div class="skill-entry">
+                    <label class="field" for="skill-to-add">
+                        <span>Skill</span>
+                        <select id="skill-to-add"></select>
+                    </label>
+                    <label class="field" for="skill-proficiency">
+                        <span>Proficiency</span>
+                        <select id="skill-proficiency">
+                            <option value="25">Beginner</option>
+                            <option value="55">Intermediate</option>
+                            <option value="80">Advanced</option>
+                            <option value="100">Expert</option>
+                        </select>
+                    </label>
+                    <button class="add-skill-button" id="add-skill" type="button">Add skill</button>
+                </div>
+                <div class="student-skills" id="student-skills" aria-live="polite"></div>
 
-            <section class="conversation" aria-label="Conversation">
-                <article class="message user-message">
-                    <p>Which skill should I improve first?</p>
-                </article>
-                <article class="message assistant-message">
-                    <p>Improve AWS first. It is currently your biggest skill gap and will increase your match score for cloud and backend internships.</p>
-                </article>
-            </section>
-
-            <form class="chat-composer">
-                <input type="text" name="question" placeholder="Ask a question..." >
-                <button type="submit">Send</button>
+                <fieldset class="questionnaire" id="questionnaire">
+                    <legend>Quick proficiency check</legend>
+                    <p>Answer for one skill to update its proficiency estimate.</p>
+                    <label class="field" for="assessment-skill">
+                        <span>Assess skill</span>
+                        <select id="assessment-skill"></select>
+                    </label>
+                    <div class="question-list">
+                        <label class="field" for="question-practice">
+                            <span>How independently can you use this skill?</span>
+                            <select id="question-practice"><option value="" selected disabled>Choose an answer</option><option value="0">I have not practiced it</option><option value="1">I can do basics with guidance</option><option value="2">I can use it independently</option></select>
+                        </label>
+                        <label class="field" for="question-problem">
+                            <span>Can you solve a new task with it?</span>
+                            <select id="question-problem"><option value="" selected disabled>Choose an answer</option><option value="0">Not yet</option><option value="1">With examples or help</option><option value="2">Yes, independently</option></select>
+                        </label>
+                        <label class="field" for="question-explain">
+                            <span>Can you explain your approach?</span>
+                            <select id="question-explain"><option value="" selected disabled>Choose an answer</option><option value="0">Not yet</option><option value="1">I can explain some steps</option><option value="2">Yes, clearly and confidently</option></select>
+                        </label>
+                    </div>
+                    <p class="questionnaire-scale">Assessment estimate: 0-1 points = Beginner (25%); 2-3 = Intermediate (55%); 4-5 = Advanced (80%); 6 = Expert (100%).</p>
+                    <button class="apply-assessment-button" id="apply-assessment" type="button">Apply assessment estimate</button>
+                    <p class="assessment-result" id="assessment-result" role="status"></p>
+                </fieldset>
+                <button class="reset-button" id="reset-assessment" type="button">Reset assessment</button>
             </form>
-        </main>
-    </div>
+
+            <section class="results-column" aria-label="Career readiness analysis">
+                <section class="results-panel gap-summary-panel" aria-labelledby="gap-summary-title">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">SKILL GAP ANALYSIS</p>
+                            <h2 id="gap-summary-title">Strengths &amp; priority gaps</h2>
+                        </div>
+                        <span class="result-count" id="gap-count"></span>
+                    </div>
+                    <div class="skill-groups" id="skill-groups" aria-live="polite"></div>
+                </section>
+
+                <section class="results-panel" aria-labelledby="mapping-title">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">ROLE REQUIREMENTS</p>
+                            <h2 id="mapping-title">Competency map</h2>
+                        </div>
+                        <span class="result-count" id="competency-count"></span>
+                    </div>
+                    <div class="competency-map" id="competency-map" aria-live="polite"></div>
+                </section>
+
+                <section class="results-panel learning-panel" aria-labelledby="learning-title">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">FAST-TRACK REMEDIATION</p>
+                            <h2 id="learning-title">Personalized upskilling pathway</h2>
+                        </div>
+                    </div>
+                    <ol class="learning-path" id="learning-path" aria-live="polite"></ol>
+                </section>
+            </section>
+        </div>
+        <p class="updated-at" id="updated-at" aria-live="polite"></p>
+    </main>
 </body>
+
 </html>

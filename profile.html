@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | SkillTor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+
+<body>
+    <header class="profile-header">
+        <a class="back-link" href="index.html" aria-label="Back to dashboard">
+            <span aria-hidden="true">&larr;</span>
+            Dashboard
+        </a>
+        <span class="brand-name">SkillTor</span>
+    </header>
+
+    <main class="profile-layout">
+        <section class="profile-overview" aria-labelledby="profile-name">
+            <div class="profile-avatar" aria-hidden="true">S</div>
+            <div>
+                <p class="eyebrow">LEARNER PROFILE</p>
+                <h1 id="profile-name">Sweezy</h1>
+                <p class="profile-summary">Your learning identity and Skill Passport.</p>
+            </div>
+        </section>
+
+        <div class="profile-grid">
+            <section class="profile-panel" aria-labelledby="account-heading">
+                <div class="panel-heading">
+                    <h2 id="account-heading">Account details</h2>
+                </div>
+                <dl class="profile-details">
+                    <div>
+                        <dt>Name</dt>
+                        <dd>Sweezy</dd>
+                    </div>
+                    <div>
+                        <dt>Platform</dt>
+                        <dd>SkillTor</dd>
+                    </div>
+                    <div>
+                        <dt>About</dt>
+                        <dd class="empty-value">Not added yet</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="profile-panel passport-panel" aria-labelledby="passport-heading">
+                <div class="panel-heading">
+                    <h2 id="passport-heading">Skill Passport</h2>
+                    <span class="status-label">Ready to build</span>
+                </div>
+                <p>Explore your strengths, identify skills to grow, and connect them to opportunities.</p>
+                <a class="profile-action" href="skill-matchmaker.html">Explore skill matchmaker <span aria-hidden="true">&rarr;</span></a>
+            </section>
+
+            <section class="profile-panel journey-panel" aria-labelledby="journey-heading">
+                <div class="panel-heading">
+                    <h2 id="journey-heading">Learning journey</h2>
+                </div>
+                <p>Choose a starting point for your next step.</p>
+                <nav class="journey-links" aria-label="Learning journey">
+                    <a href="project-based-learning.html">Project-based learning <span aria-hidden="true">&rarr;</span></a>
+                    <a href="Internship Discovery.html">Discover internships <span aria-hidden="true">&rarr;</span></a>
+                    <a href="resource-hub.html">Browse learning resources <span aria-hidden="true">&rarr;</span></a>
+                </nav>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>
