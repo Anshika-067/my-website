@@ -360,3 +360,50 @@ align-items: center;
         margin-left: auto;
     }
 }
+
+@media (max-width: 700px) {
+    .dashboard-container {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+    }
+
+    .sidebar {
+        grid-row: auto;
+        padding: 0.75rem 1rem;
+    }
+
+    .sidebar ul {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .sidebar h2 {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .sidebar a {
+        padding: 0.45rem 0.6rem;
+    }
+
+    .sidebar svg {
+        width: 22px;
+    }
+
+    .main-content {
+        margin-top: 12px;
+        padding: 16px;
+    }
+
+    .cards {
+        gap: 16px;
+        padding: 12px;
+    }
+
+    .card {
+        height: auto;
+        min-height: 150px;
+        padding: 18px;
+    }
+}
