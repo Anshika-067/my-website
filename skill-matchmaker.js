@@ -143,6 +143,10 @@ const competencyMap = document.querySelector("#competency-map");
 const learningPath = document.querySelector("#learning-path");
 const saveStatus = document.querySelector("#save-status");
 const resetButton = document.querySelector("#reset-assessment");
+const coachForm = document.querySelector("#coach-form");
+const coachInput = document.querySelector("#coach-input");
+const coachResponse = document.querySelector("#coach-response");
+const coachSubmit = coachForm.querySelector("button[type='submit']");
 const profileFields = [...form.querySelectorAll("[name]")];
 
 let profile = loadProfile();
@@ -276,6 +280,98 @@ function analyzeCompetencies(competencies) {
         return Number(second.critical) - Number(first.critical) || second.priorityScore - first.priorityScore || first.name.localeCompare(second.name);
     });
     return { analysis, prioritizedGaps, match, gapIndex, requiredPoints };
+}
+
+function renderCoachStatus(message, state = "") {
+    const response = document.createElement("div");
+    response.className = `coach-message${state ? ` coach-message-${state}` : ""}`;
+    const text = document.createElement("p");
+    text.textContent = message;
+    response.append(text);
+    coachResponse.replaceChildren();
+    const avatar = document.createElement("span");
+    avatar.className = "coach-avatar";
+    avatar.setAttribute("aria-hidden", "true");
+    avatar.textContent = "✦";
+    coachResponse.append(avatar, response);
+}
+
+function renderCoachResponse(result) {
+    const role = roles[profile.targetRole];
+    const response = document.createElement("div");
+    response.className = "coach-message";
+    const summary = document.createElement("p");
+    summary.textContent = result.summary;
+    response.append(summary);
+
+    const recognizedSkills = result.recognizedSkills.filter((item) => {
+        return skillCatalog.some((skill) => skill.id === item.id)
+            && Number.isInteger(item.proficiency)
+            && item.proficiency >= 25
+            && item.proficiency <= 100;
+    });
+    if (recognizedSkills.length > 0) {
+        const identified = document.createElement("p");
+        identified.className = "coach-identified";
+        identified.textContent = `Added to your assessment: ${recognizedSkills
+            .map((item) => `${skillCatalog.find((skill) => skill.id === item.id).name} (${proficiencyLabel(item.proficiency)})`)
+            .join(", ")}.`;
+        response.append(identified);
+    } else {
+        const notIdentified = document.createElement("p");
+        notIdentified.className = "coach-identified";
+        notIdentified.textContent = "I couldn't confidently identify an assessed skill in that message, so your saved skill levels are unchanged.";
+        response.append(notIdentified);
+    }
+
+    const allowedCompetencies = new Map(role.competencies.map((item) => [item.id, item]));
+    const recommendations = result.recommendations
+        .filter((item) => allowedCompetencies.has(item.id))
+        .slice(0, 3);
+    if (recommendations.length > 0) {
+        const heading = document.createElement("h3");
+        heading.textContent = "Recommended next skills";
+        const list = document.createElement("ol");
+        list.className = "coach-recommendations";
+        for (const recommendation of recommendations) {
+            const item = allowedCompetencies.get(recommendation.id);
+            const entry = document.createElement("li");
+            const skill = document.createElement("strong");
+            const current = getRating(item.id);
+            skill.textContent = `${item.name} · ${current}% current / ${item.required}% goal`;
+            const reason = document.createElement("span");
+            reason.textContent = recommendation.reason;
+            const resource = document.createElement("a");
+            resource.href = item.url;
+            resource.target = "_blank";
+            resource.rel = "noopener noreferrer";
+            resource.textContent = `Start learning: ${item.resource}`;
+            entry.append(skill, reason, resource);
+            list.append(entry);
+        }
+        response.append(heading, list);
+    } else {
+        const complete = document.createElement("p");
+        complete.textContent = `There are no additional skill recommendations for the mapped ${role.title} competencies. Build a project to show how you use your skills together.`;
+        response.append(complete);
+    }
+
+    coachResponse.replaceChildren();
+    const avatar = document.createElement("span");
+    avatar.className = "coach-avatar";
+    avatar.setAttribute("aria-hidden", "true");
+    avatar.textContent = "✦";
+    coachResponse.append(avatar, response);
+}
+
+function isCoachResponse(value) {
+    return value !== null
+        && typeof value === "object"
+        && typeof value.summary === "string"
+        && Array.isArray(value.recognizedSkills)
+        && Array.isArray(value.recommendations)
+        && value.recognizedSkills.every((item) => item && typeof item.id === "string" && Number.isInteger(item.proficiency))
+        && value.recommendations.every((item) => item && typeof item.id === "string" && typeof item.reason === "string");
 }
 
 function appendCell(row, text, className) {
@@ -534,6 +630,68 @@ resetButton.addEventListener("click", () => {
     profile.skills = {};
     renderStudentSkills();
     refreshAnalysis();
+});
+
+coachForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    coachSubmit.disabled = true;
+    coachForm.setAttribute("aria-busy", "true");
+    renderCoachStatus("Claude is reviewing your skills and preparing recommendations…", "loading");
+
+    try {
+        const apiBase = window.SKILLTOR_AI_API_URL || window.location.origin;
+        const endpoint = new URL("/api/skills-coach", apiBase);
+        const role = roles[profile.targetRole];
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: coachInput.value.trim(),
+                role: role.title,
+                competencies: role.competencies.map(({ id, required }) => ({ id, required })),
+                currentSkills: Object.entries(profile.skills)
+                    .filter(([, proficiency]) => normalizeRating(proficiency) > 0)
+                    .map(([id, proficiency]) => ({ id, proficiency: normalizeRating(proficiency) })),
+                interests: profile.interests,
+                learningMode: profile.learningMode
+            })
+        });
+
+        let result;
+        try {
+            result = await response.json();
+        } catch {
+            throw new Error("The AI service returned an unreadable response. Please try again.");
+        }
+        if (!response.ok) {
+            throw new Error(typeof result.error === "string" ? result.error : "The AI service could not complete this request.");
+        }
+        if (!isCoachResponse(result)) {
+            throw new Error("The AI service returned an invalid response. Please try again.");
+        }
+
+        for (const skill of result.recognizedSkills) {
+            if (skillCatalog.some((item) => item.id === skill.id)
+                && Number.isInteger(skill.proficiency)
+                && skill.proficiency >= 25
+                && skill.proficiency <= 100) {
+                profile.skills[skill.id] = skill.proficiency;
+            }
+        }
+        renderStudentSkills();
+        refreshAnalysis();
+        renderCoachResponse(result);
+    } catch (error) {
+        const message = error instanceof TypeError
+            ? "I couldn't connect to the AI service. Check the backend URL and make sure the server is running."
+            : error instanceof Error
+                ? error.message
+                : "The AI service could not complete this request. Please try again.";
+        renderCoachStatus(message, "error");
+    } finally {
+        coachSubmit.disabled = false;
+        coachForm.removeAttribute("aria-busy");
+    }
 });
 
 window.addEventListener("storage", (event) => {
