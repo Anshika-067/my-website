@@ -146,10 +146,19 @@ const resetButton = document.querySelector("#reset-assessment");
 const coachForm = document.querySelector("#coach-form");
 const coachInput = document.querySelector("#coach-input");
 const coachResponse = document.querySelector("#coach-response");
+const coachBadge = document.querySelector("#coach-badge");
+const coachPrivacyNote = document.querySelector("#coach-privacy-note");
 const coachSubmit = coachForm.querySelector("button[type='submit']");
 const profileFields = [...form.querySelectorAll("[name]")];
+const aiServiceConfigured = typeof window.SKILLTOR_AI_API_URL === "string"
+    && window.SKILLTOR_AI_API_URL.trim() !== "";
 
 let profile = loadProfile();
+
+coachBadge.lastChild.textContent = aiServiceConfigured ? " AI-powered coach" : " Personalized coach";
+coachPrivacyNote.textContent = aiServiceConfigured
+    ? "Your message and skill levels are sent to the configured AI service for analysis. Do not include personal or sensitive information. You can edit matched levels in Current skills."
+    : "Your message stays in this browser. Recommendations use skill levels saved in your Skill Passport. Do not include personal or sensitive information.";
 
 function normalizeRating(value) {
     const rating = Number(value);
@@ -296,7 +305,7 @@ function renderCoachStatus(message, state = "") {
     coachResponse.append(avatar, response);
 }
 
-function renderCoachResponse(result) {
+function renderCoachResponse(result, useSavedAssessment = false) {
     const role = roles[profile.targetRole];
     const response = document.createElement("div");
     response.className = "coach-message";
@@ -320,7 +329,9 @@ function renderCoachResponse(result) {
     } else {
         const notIdentified = document.createElement("p");
         notIdentified.className = "coach-identified";
-        notIdentified.textContent = "I couldn't confidently identify an assessed skill in that message, so your saved skill levels are unchanged.";
+        notIdentified.textContent = useSavedAssessment
+            ? "Your saved skill levels are unchanged; these priorities are based on your Skill Passport."
+            : "I couldn't confidently identify an assessed skill in that message, so your saved skill levels are unchanged.";
         response.append(notIdentified);
     }
 
@@ -362,6 +373,45 @@ function renderCoachResponse(result) {
     avatar.setAttribute("aria-hidden", "true");
     avatar.textContent = "✦";
     coachResponse.append(avatar, response);
+}
+
+function createAssessmentCoachResult() {
+    const role = roles[profile.targetRole];
+    const { analysis } = analyzeCompetencies(role.competencies);
+    const assessed = analysis.filter((item) => getRating(item.id) > 0);
+    const sortByPriority = (first, second) => {
+        return Number(second.critical) - Number(first.critical)
+            || second.priorityScore - first.priorityScore
+            || first.name.localeCompare(second.name);
+    };
+    const assessedGaps = assessed.filter((item) => item.gap > 0).sort(sortByPriority);
+    const unassessed = analysis.filter((item) => getRating(item.id) === 0);
+    const priorities = [
+        ...assessedGaps,
+        ...unassessed.sort(sortByPriority)
+    ].slice(0, 3);
+
+    let summary;
+    if (assessedGaps.length > 0) {
+        const topGap = assessedGaps[0];
+        summary = `For your ${role.title} goal, ${topGap.name} is your biggest assessed gap (${topGap.current}% current against a ${topGap.required}% target). ${topGap.action} I’ve prioritized learning sources below.`;
+    } else if (unassessed.length > 0) {
+        const first = priorities[0];
+        summary = `I’m using your ${role.title} goal to suggest where to start. You haven’t rated ${unassessed.length === 1 ? "this skill" : "these skills"} yet, so I can’t treat ${unassessed.length === 1 ? "it" : "them"} as confirmed gaps. Add your current levels to get more tailored priorities.`;
+    } else {
+        summary = `Great progress: your assessed skills meet the mapped targets for ${role.title}. Keep building a project that demonstrates how you use them together.`;
+    }
+
+    return {
+        summary,
+        recognizedSkills: [],
+        recommendations: priorities.map((item) => ({
+            id: item.id,
+            reason: getRating(item.id) > 0
+                ? `${item.gap} points below target. ${item.action}`
+                : `Not assessed yet. ${item.action}`
+        }))
+    };
 }
 
 function isCoachResponse(value) {
@@ -636,10 +686,17 @@ coachForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     coachSubmit.disabled = true;
     coachForm.setAttribute("aria-busy", "true");
-    renderCoachStatus("Claude is reviewing your skills and preparing recommendations…", "loading");
+    renderCoachStatus(aiServiceConfigured
+        ? "Reviewing your skills and preparing recommendations…"
+        : "Checking your saved skill gaps and finding learning sources…", "loading");
 
     try {
-        const apiBase = window.SKILLTOR_AI_API_URL || window.location.origin;
+        if (!aiServiceConfigured) {
+            renderCoachResponse(createAssessmentCoachResult(), true);
+            return;
+        }
+
+        const apiBase = window.SKILLTOR_AI_API_URL;
         const endpoint = new URL("/api/skills-coach", apiBase);
         const role = roles[profile.targetRole];
         const response = await fetch(endpoint, {

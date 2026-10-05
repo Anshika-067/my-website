@@ -81,24 +81,24 @@
             <div class="coach-heading">
                 <div>
                     <p class="eyebrow">PERSONALIZED LEARNING GUIDE</p>
-                    <h2 id="coach-title">Claude Skills Coach</h2>
-                    <p>Describe your experience in your own words. Claude will match your skills to your career goal and recommend what to learn next.</p>
+                    <h2 id="coach-title">Skill-gap learning coach</h2>
+                    <p>Ask about your learning priorities. The coach compares your skill levels with your target role and recommends practical next steps and learning sources.</p>
                 </div>
-                <span class="coach-badge"><span aria-hidden="true">✦</span> Powered by Claude</span>
+                <span class="coach-badge" id="coach-badge"><span aria-hidden="true">✦</span> Personalized coach</span>
             </div>
             <form class="coach-form" id="coach-form">
                 <label class="field" for="coach-input">
-                    <span>What skills or experience would you like me to assess?</span>
-                    <textarea id="coach-input" name="skills" rows="3" maxlength="600" required aria-describedby="coach-privacy-note" placeholder="For example: I know Python at an intermediate level, SQL at beginner level, and I’m new to React."></textarea>
+                    <span>What would you like help learning?</span>
+                    <textarea id="coach-input" name="skills" rows="3" maxlength="600" required aria-describedby="coach-privacy-note" placeholder="For example: Which skills should I focus on first for my target role?"></textarea>
                 </label>
                 <div class="coach-form-footer">
-                    <p id="coach-privacy-note">Your message and skill levels are sent to Anthropic for analysis. Do not include personal or sensitive information. You can edit matched levels in Current skills.</p>
-                    <button class="coach-submit" type="submit">Match my skills <span aria-hidden="true">&rarr;</span></button>
+                    <p id="coach-privacy-note">Recommendations use your saved skill assessment. Do not include personal or sensitive information.</p>
+                    <button class="coach-submit" type="submit">Get my learning plan <span aria-hidden="true">&rarr;</span></button>
                 </div>
             </form>
             <div class="coach-response" id="coach-response" role="status" aria-live="polite">
                 <span class="coach-avatar" aria-hidden="true">✦</span>
-                <p>Share a few skills to get a personalized match, learning priorities, and curated resources.</p>
+                <p>Share what you want to learn. Your skill assessment will guide the priorities and trusted sources.</p>
             </div>
         </section>
 
